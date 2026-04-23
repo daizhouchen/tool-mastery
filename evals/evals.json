@@ -1,0 +1,26 @@
+{
+  "skill_name": "tool-mastery",
+  "evals": [
+    {
+      "id": 1,
+      "name": "single-tool-linear-pm-onboarding",
+      "prompt": "我下周一入职一家新公司做产品经理，他们用 Linear 跟踪需求和 bug。我以前只用过 Jira，完全没摸过 Linear。帮我做一份上手指南，让我周一能直接用起来——最好能落到一个网页上我可以存下来随时翻。重点想了解 Linear 和 Jira 不一样的地方、基本概念、以及 PM 日常要做的事比如提需求、排优先级、跑 sprint 大概怎么操作。",
+      "expected_output": "A single-file HTML page named after the topic (e.g. linear.html) at Linear/Vercel visual quality. Contains one tool section covering: what Linear is (with a PM/Jira framing), 3–5 core primitives (Issues, Cycles, Projects, Views, Workflows), a quickstart that ends on 'created your first issue', 2–3 PM-oriented scenarios (file a feature request, run triage, cycle planning), and pitfalls a Jira-migrator would hit. No combo section. Facts should match current Linear terminology (e.g. 'cycles' not 'sprints', 'triage' as a named mode).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "two-tool-combo-claude-code-github",
+      "prompt": "我是一个后端工程师，团队最近在推 Claude Code 做 AI 辅助开发，代码都托管在 GitHub。我想搞清楚这俩怎么最有效地结合用——不只是 Claude Code 能写代码、GitHub 能托管这种废话，而是真实开发循环里怎么串起来：开 issue、开分支、让 Claude 写、提 PR、review、合并。给我做个使用手册网页，我想打印出来贴在桌上。",
+      "expected_output": "A single-file HTML page with two tool sections (Claude Code, GitHub) and one combo section tying them into a real dev loop. Each tool section has accurate quickstart commands (Claude Code: npm install -g @anthropic-ai/claude-code; GitHub: gh CLI basics). The combo section must have an ascii flow diagram and a 4–7 step end-to-end workflow from 'issue exists' to 'PR merged' that references real Claude Code features (slash commands, plan mode, /review) and real GitHub primitives (issues, PRs, Actions). Pitfalls must be non-obvious (e.g. Claude Code needs auth, gh needs login, Actions minutes on free tier).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "three-tool-combo-claude-github-linear",
+      "prompt": "我想了解 claude code 和 github 和 linear 串起来怎么用——完整的产品开发闭环：产品经理在 Linear 提需求，工程师用 Claude Code 开发，代码在 GitHub review 和 merge，然后需求状态要自动回到 Linear。帮我做一个精美的网页，把这三个工具分别是什么、各自怎么用、怎么串起来讲清楚。我想发给刚入职的同事看。",
+      "expected_output": "A single-file HTML page with three tool sections (Linear, GitHub, Claude Code — order may vary but Linear likely first by workflow order) plus one combo section that walks through the full PM → dev → merge → auto-close loop. The combo must include: an ascii diagram showing Linear ↔ GitHub sync and Claude Code's role, a setup section (install Linear's GitHub app, branch naming convention like LIN-123-*), and a workflow where merging a PR auto-closes the Linear issue. Tool sections should be intentionally different lengths — the combo is the star. Must not repeat the same pitfall across multiple tools.",
+      "files": []
+    }
+  ]
+}

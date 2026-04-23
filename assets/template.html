@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-elev: #111113;
+  --bg-code: #0d0d10;
+  --border: #1f1f23;
+  --border-strong: #2a2a30;
+  --text: #ededef;
+  --text-muted: #9a9aa3;
+  --text-dim: #6a6a73;
+  --accent: #7c8cff;
+  --accent-soft: rgba(124, 140, 255, 0.12);
+  --accent-border: rgba(124, 140, 255, 0.25);
+  --success: #4ade80;
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre { font-family: var(--mono); font-size: 13.5px; }
+code {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #d4d4d9;
+}
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 12px 0;
+  line-height: 1.55;
+}
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 64px;
+  padding: 0 32px;
+}
+
+aside.toc {
+  position: sticky;
+  top: 48px;
+  align-self: start;
+  padding: 48px 0;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+aside.toc .toc-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+aside.toc ul { list-style: none; }
+aside.toc li { margin-bottom: 4px; }
+aside.toc a {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  display: block;
+  padding: 4px 0;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  margin-left: -14px;
+  transition: color 0.15s, border-color 0.15s;
+}
+aside.toc a:hover { color: var(--text); text-decoration: none; }
+aside.toc a.active { color: var(--accent); border-left-color: var(--accent); }
+aside.toc li.nested a { padding-left: 24px; font-size: 13px; color: var(--text-dim); }
+
+main.content { padding: 48px 0 120px; min-width: 0; }
+
+header.hero { margin-bottom: 64px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
+header.hero .kicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+header.hero h1 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+header.hero p.subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 680px;
+}
+header.hero .meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+header.hero .meta span strong { color: var(--text-muted); font-weight: 500; }
+
+section.tool, section.combo { margin-bottom: 72px; scroll-margin-top: 32px; }
+section.tool h2, section.combo h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+section.tool h2 .badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+section.tool p.tagline, section.combo p.tagline {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+section.tool h3, section.combo h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 36px;
+  margin-bottom: 14px;
+}
+section.tool p, section.combo p { margin-bottom: 14px; color: var(--text); }
+section.tool p.what { color: var(--text-muted); font-size: 15.5px; line-height: 1.7; max-width: 720px; }
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+.cap-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: border-color 0.15s;
+}
+.cap-card:hover { border-color: var(--border-strong); }
+.cap-card .cap-title {
+  font-weight: 600;
+  font-size: 14.5px;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.cap-card .cap-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+
+.steps { counter-reset: step; list-style: none; padding: 0; }
+.steps > li {
+  counter-increment: step;
+  position: relative;
+  padding: 8px 0 8px 44px;
+  margin-bottom: 6px;
+}
+.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.steps > li .step-title { font-weight: 500; color: var(--text); }
+.steps > li .step-desc { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+
+.scenarios { display: flex; flex-direction: column; gap: 16px; }
+.scenario {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.scenario .scenario-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.scenario .scenario-goal {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.scenario .scenario-goal strong { color: var(--accent); font-weight: 500; }
+.scenario ol { padding-left: 20px; color: var(--text-muted); font-size: 14px; }
+.scenario ol li { margin-bottom: 6px; }
+
+.pitfalls { list-style: none; }
+.pitfalls li {
+  padding: 10px 14px;
+  border-left: 2px solid var(--warn);
+  background: rgba(251, 191, 36, 0.04);
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-muted);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.pitfalls li strong { color: var(--warn); font-weight: 500; }
+
+.docs-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.docs-link:hover { border-color: var(--accent-border); color: var(--accent); text-decoration: none; }
+.docs-link::after { content: '→'; font-family: var(--mono); }
+
+.combo-flow {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 16px 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+
+.workflow-step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+.workflow-step:first-child { border-top: none; }
+.workflow-step .step-idx {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  padding-top: 2px;
+}
+.workflow-step .step-idx .tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.workflow-step .step-idx .tools span {
+  font-size: 10px;
+  padding: 2px 7px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.workflow-step .step-body .wf-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.workflow-step .step-body .wf-desc {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+footer.site-footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+footer.site-footer a { color: var(--text-muted); }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 0; padding: 0 20px; }
+  aside.toc { display: none; }
+  header.hero h1 { font-size: 32px; }
+  main.content { padding: 32px 0 80px; }
+  .workflow-step { grid-template-columns: 1fr; gap: 8px; }
+}
+
+::selection { background: var(--accent-soft); color: var(--text); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="toc">
+    <div class="toc-label">On this page</div>
+    <ul id="toc-list">{{TOC_HTML}}</ul>
+  </aside>
+  <main class="content">
+    <header class="hero">
+      <div class="kicker">{{KICKER}}</div>
+      <h1>{{HERO_TITLE}}</h1>
+      <p class="subtitle">{{HERO_SUBTITLE}}</p>
+      <div class="meta">{{HERO_META}}</div>
+    </header>
+    {{SECTIONS_HTML}}
+    <footer class="site-footer">
+      <div>{{FOOTER_LEFT}}</div>
+      <div>{{FOOTER_RIGHT}}</div>
+    </footer>
+  </main>
+</div>
+<script>
+(function() {
+  const links = document.querySelectorAll('aside.toc a');
+  const sections = Array.from(links).map(a => {
+    const id = a.getAttribute('href').slice(1);
+    return { id, el: document.getElementById(id), link: a };
+  }).filter(x => x.el);
+  function onScroll() {
+    const y = window.scrollY + 100;
+    let current = sections[0];
+    for (const s of sections) { if (s.el.offsetTop <= y) current = s; }
+    links.forEach(a => a.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
