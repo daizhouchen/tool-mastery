@@ -7,7 +7,7 @@
 <meta name="description" content="{{DESCRIPTION}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0a0a;
@@ -26,8 +26,8 @@
   --danger: #f87171;
   --radius: 10px;
   --radius-sm: 6px;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Sarasa Mono SC', 'PingFang SC', 'Microsoft YaHei Mono', 'Noto Sans Mono CJK SC', monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Source Han Sans SC', 'WenQuanYi Micro Hei', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -275,6 +275,47 @@ section.tool p.what { color: var(--text-muted); font-size: 15.5px; line-height: 
 .docs-link:hover { border-color: var(--accent-border); color: var(--accent); text-decoration: none; }
 .docs-link::after { content: '→'; font-family: var(--mono); }
 
+.mig-wrap {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-top: 8px;
+}
+.mig-caption {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.mig-caption strong { color: var(--text); font-weight: 500; }
+.mig-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mig-table td { padding: 8px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+.mig-table tr:first-child td { border-top: none; }
+.mig-table td.mig-from {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  width: 35%;
+}
+.mig-table td.mig-arrow {
+  font-family: var(--mono);
+  color: var(--text-dim);
+  width: 28px;
+  text-align: center;
+}
+.mig-table td.mig-to {
+  color: var(--text);
+  font-weight: 500;
+}
+.mig-table .mig-note {
+  display: block;
+  font-weight: 400;
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
 .combo-flow {
   background: var(--bg-elev);
   border: 1px solid var(--border);
@@ -347,6 +388,37 @@ footer.site-footer a { color: var(--text-muted); }
   header.hero h1 { font-size: 32px; }
   main.content { padding: 32px 0 80px; }
   .workflow-step { grid-template-columns: 1fr; gap: 8px; }
+}
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-elev: #f7f7f9;
+    --bg-code: #f2f2f4;
+    --border: #d8d8dc;
+    --border-strong: #bcbcc2;
+    --text: #111114;
+    --text-muted: #3e3e45;
+    --text-dim: #6a6a73;
+    --accent: #3648c2;
+    --accent-soft: rgba(54, 72, 194, 0.08);
+    --accent-border: rgba(54, 72, 194, 0.35);
+  }
+  body { font-size: 11.5pt; line-height: 1.55; background: #fff; color: #111; }
+  .layout { grid-template-columns: 1fr; gap: 0; padding: 0 14mm; max-width: 100%; }
+  aside.toc, footer.site-footer { display: none; }
+  main.content { padding: 8mm 0; }
+  header.hero { padding-bottom: 6mm; margin-bottom: 8mm; page-break-after: avoid; }
+  header.hero h1 { font-size: 22pt; }
+  header.hero p.subtitle { font-size: 12pt; }
+  section.tool, section.combo { margin-bottom: 10mm; page-break-inside: avoid; }
+  section.tool h2, section.combo h2 { page-break-after: avoid; }
+  h3 { page-break-after: avoid; }
+  .scenario, .cap-card, .mig-wrap, .combo-flow, .workflow-step { page-break-inside: avoid; }
+  pre, code { background: #f2f2f4; border-color: #d8d8dc; color: #111; }
+  a { color: #3648c2; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #6a6a73; word-break: break-all; }
+  .combo-flow { font-size: 10pt; }
 }
 
 ::selection { background: var(--accent-soft); color: var(--text); }

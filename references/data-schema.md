@@ -59,6 +59,14 @@ A Tool section is about one product. Keep field counts modest — fewer, sharper
   "pitfalls": [
     { "label": "Don't", "text": "Create projects for every small effort — use cycles for lightweight planning." }
   ],
+  "migratingFrom": {
+    "fromTool": "Jira",
+    "mapping": [
+      { "from": "Epic", "to": "Project", "note": "Multi-cycle efforts rather than quarterly containers." },
+      { "from": "Sprint", "to": "Cycle" },
+      { "from": "Story Points", "to": "Estimate" }
+    ]
+  },
   "docsUrl": "https://linear.app/docs",
   "docsLabel": "Linear documentation"
 }
@@ -68,10 +76,27 @@ A Tool section is about one product. Keep field counts modest — fewer, sharper
 
 - `slug` — URL-safe, used for the `#anchor` and TOC. Lowercase, hyphens.
 - `badge` — one or two words; category, not feature (e.g. `Issue tracker`, `AI coding CLI`, `Source host`).
-- `coreCapabilities` — 3 to 5 items. More than 5 is a smell; consolidate.
-- `quickStart` — the minimum steps to go from zero to "hello world". Think 3–6 steps, each one action. Use `code` for copy-pasteable commands; skip `code` for UI steps.
-- `scenarios` — 2 to 3 concrete, real workflows the reader will recognize. Each has a `goal` (what you're trying to accomplish) and ordered `steps`.
-- `pitfalls` — 2 to 4 items. Each is a surprising or non-obvious warning. Things the reader couldn't guess by reading feature marketing.
+- `coreCapabilities` — 3 to 4 items, hard cap at 4. These should be the legs of the mental-model sentence in `whatItIs`.
+- `quickStart` — the minimum steps to go from zero to "something real". 3 to 6 steps. Default to a single platform; only stack multi-platform variants if the user explicitly asked for cross-platform. Use `code` for copy-pasteable commands; omit `code` for UI steps.
+- `scenarios` — 2 to 3 concrete, real workflows the reader will recognize. Each has a `goal` and ordered `steps`.
+- `pitfalls` — 2 to 4 items. Each a non-obvious "the tool won't let you do this gracefully" fact — negative affordance, not generic warnings.
+- `migratingFrom` — include **only** when the user explicitly said they're moving from a specific tool. See the dedicated section below.
+
+## migratingFrom (optional)
+
+```json
+"migratingFrom": {
+  "fromTool": "Jira",
+  "mapping": [
+    { "from": "Epic", "to": "Project", "note": "optional clarification" },
+    { "from": "Sprint", "to": "Cycle" }
+  ]
+}
+```
+
+- `fromTool` — the tool the user is leaving. Title-case the product name.
+- `mapping` — 3 to 7 entries. Each row aligns a concept the reader already knows (`from`) with its equivalent in the new tool (`to`). The optional `note` calls out a meaningful non-1:1 difference; leave it out when the mapping is clean.
+- Keep the rows focused on the *core primitives* the reader will collide with first. Don't enumerate every UI element.
 
 ## Combo
 

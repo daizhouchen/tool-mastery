@@ -67,30 +67,67 @@ Skip: exhaustive feature lists, pricing, company history, customer logos.
 
 Read `references/data-schema.md` before starting — it documents every field and the conventions for each one.
 
-### Writing guidance that matters more than the schema
+### Writing guidance — grounded in theory, not feature dumps
 
-**`whatItIs`** — 2–4 sentences. First sentence: what the tool is. Second: who it's for. Third (optional): why they pick it over the obvious alternative. Avoid adjectives like "powerful", "seamless", "intuitive" — they say nothing.
+Four frameworks decide *how* Claude writes, not what new fields to invent. They never appear as visible labels — they shape the sentences.
 
-**`coreCapabilities`** — 3 to 5. Each title is a *noun* (the primitive), not a verb ("Issues & cycles" not "Track issues"). Each desc is *one* sentence that names the primitive and what it does. If you have 8 capabilities you want to mention, collapse them — the reader cannot hold 8 things in their head.
+- **Jobs to be Done (Christensen)** — readers don't buy features; they hire a tool to finish a job. `whatItIs` opens with the job.
+- **Mental Models (Craik)** — people only use a tool well once they can picture its internal skeleton (the primitives and the rule for how they combine). The reader should be able to sketch that picture after reading `whatItIs` + `coreCapabilities`.
+- **Activity Theory (Vygotsky → Engeström)** — in multi-tool scenarios, each tool *mediates* between a subject (a role) and an object (an outcome), under shared rules. This is what separates a real combo story from three encyclopedia entries side by side.
+- **Affordance (Gibson / Norman)** — a pitfall is the tool's *negative space* — what it refuses to let you do gracefully. Not a random "be careful" warning.
 
-**`quickStart`** — the minimum steps to make the tool do something real. Not sign-up alone — that's useless. End on a step where the tool has produced value ("Create your first issue", "Run your first command"). Use `code` for copy-pasteable commands; omit `code` for click-through UI steps.
+Concretely:
 
-**`scenarios`** — 2 to 3, and this is the highest-leverage section. A scenario is a *named workflow* a real user does. Each one has:
+**`whatItIs`** — 3 to 5 sentences, in this order:
+
+1. **JTBD sentence.** Open with the job. Shape: *"When you need to <trigger>, you reach for <Tool> to <outcome> — because <decisive reason>."* Do not open with "X is a Y that does Z" marketing copy.
+2. **Audience.** Who it's for, in one line.
+3. **Mental-model sentence.** Name the 2–3 core primitives and the single rule for how they compose. Example: *"Linear is three primitives — an **Issue** is the atomic unit of work, a **Cycle** is a time-box it lives inside, a **View** is a filter over all of them — and every workflow is a combination of those."* This is what the reader recites back after closing the tab.
+4. *(Optional)* Why pick it over the obvious alternative.
+
+Forbidden words — zero information: `powerful`, `seamless`, `intuitive`, `leverage`, `unleash`, `robust`, `cutting-edge`, `revolutionary`.
+
+**`coreCapabilities`** — 3 to 4 items, **hard cap at 4**. More is a feature soup the reader can't hold in their head. Each title is a *noun* (a primitive). Each `desc` is one sentence naming the primitive and what it lets the user do. The four cards should be the four legs of the mental-model picture the reader just read.
+
+**`quickStart`** — 3 to 6 steps. End on a step where the tool produced real value ("Create your first issue", not "Verify your email"). Use `code` for copy-pasteable commands; omit `code` for UI steps. **Default to a single platform** — pick the one most likely to match the user's context. Only stack multi-platform variants (macOS + Linux + Windows) if the user explicitly asked for cross-platform.
+
+**`scenarios`** — 2 to 3 items, the highest-leverage section. A scenario is a *named workflow* a real user does. Each one has:
 - a concrete `title` ("Run weekly triage", not "Using the triage view")
-- a one-line `goal` that explains why someone would do this
-- ordered `steps` at a "what I click / type" granularity
+- a one-line `goal` explaining why someone would do this
+- ordered `steps` at "what I click / type" granularity
 
-If you find yourself writing a scenario called "Using Feature X", delete it and think about what someone would actually use Feature X *for*.
+If you find yourself writing "Using Feature X", delete it and rewrite it as what someone would use Feature X *for*.
 
-**`pitfalls`** — 2 to 4. The test: would a new user only learn this by getting burned? If it's in the marketing copy, it's not a pitfall. Examples of real pitfalls: undocumented rate limits, "free tier doesn't include X", "this action is irreversible", "requires scope Y which admins must approve".
+**`pitfalls`** — 2 to 4 items. A real pitfall is the tool's *negative affordance* — a thing it won't let you do gracefully and the reader couldn't guess from marketing. Rate limits, irreversible actions, "requires scope Y which admins must approve", "auto-close only fires on merges to the default branch". "Be careful" is not a pitfall.
+
+**`migratingFrom`** (optional) — fill *only* when the user explicitly says they're coming from a specific tool (e.g. "I've used Jira before"). This leverages Vygotsky's Zone of Proximal Development — new knowledge anchors to what the reader already owns. Structure:
+
+```json
+"migratingFrom": {
+  "fromTool": "Jira",
+  "mapping": [
+    { "from": "Epic", "to": "Project", "note": "optional short clarification" },
+    { "from": "Sprint", "to": "Cycle" }
+  ]
+}
+```
+
+Renders as a two-column comparison table.
 
 ### Combos
 
 Only emit a `combos` entry when the user asked about two or more tools *working together*. A combo section is not "here are three tools side by side" — it is a *joint workflow* that only makes sense when the tools are wired up.
 
-**`overview`** — why you'd wire these together. The reader should finish reading it thinking "ah, that's the point". If you can't articulate a joint outcome, the combo probably shouldn't be in the doc.
+**`overview`** — 2 to 4 sentences, written through the Activity Theory lens. Name four things, in this order:
 
-**`ascii`** (optional but high-value) — a plain-text diagram of data flow between the tools. Keep it short (≤10 lines). Use `──►` arrows, alignment, and one or two labeled branches. It will render in a monospace block. Example:
+1. The **subject** (the role doing the work — PM, engineer, oncall).
+2. The **object** (the outcome they're chasing — "ship a feature", "close a ticket without status-wrangling").
+3. The **mediating tools** (which tool plays which role in reaching the object).
+4. The **rules / conventions** that make the hand-off work (branch name contains the ticket ID, magic words close issues, etc.).
+
+If you can't articulate those four, the combo probably shouldn't be in the doc.
+
+**`ascii`** (optional but high-value) — a plain-text diagram of data flow between the tools. Keep it short (≤10 lines). Use `──►` arrows, alignment, and one or two labeled branches. **Keep it ASCII-only — no CJK characters mixed in**: in a monospace font, CJK characters are rendered double-width and will throw the whole diagram out of alignment. If the page is in Chinese, the diagram still uses English/latin labels. Example:
 
 ```
 Linear issue  ──►  Claude Code branch  ──►  GitHub PR  ──►  Linear auto-close
@@ -122,7 +159,7 @@ python /path/to/tool-mastery/scripts/render.py <data.json> --output <output.html
 
 If the user specified an output directory, use it. Otherwise default to the current working directory and name it after the topic (`linear-github-claude.html`, `linear.html`).
 
-**After rendering**, open the file or at least print the absolute path clearly. The user's next move is to open it in a browser and read it.
+**After rendering**, print the absolute path clearly. Also add a one-line reminder to the user: *"If you previously opened this file, hard refresh (Cmd/Ctrl+Shift+R) to defeat browser cache."* — otherwise font/style upgrades will silently fail to appear.
 
 ### If render.py fails
 
@@ -132,14 +169,26 @@ Most failures are malformed JSON. Read the error, fix the JSON, rerun. Do not at
 
 ## Output quality bar
 
-Before declaring done, skim the rendered page and check:
+Before declaring done, do **two** passes.
 
-- **Hero** answers "what will I learn here" in one line.
-- **Each tool** has a scenario I can imagine myself doing tomorrow.
-- **Each combo** ends with a concrete outcome, not vibes.
-- **No marketing filler.** Search the output for "powerful", "seamless", "intuitive", "leverage", "unleash" — if you find them, rewrite.
-- **Every command is copy-pasteable.** No placeholders like `<your-api-key>` without a comment explaining what it is.
-- **The page fits on one screen of reading at the hero + ~3 scrolls of content per tool.** If it's longer than that, trim.
+### Pass 1 — surface checks (grep-able)
+
+- **No marketing filler.** Search the output for `powerful`, `seamless`, `intuitive`, `leverage`, `unleash`, `robust`, `cutting-edge`, `revolutionary` — if any appear, rewrite.
+- **No unexplained placeholders.** Commands like `<your-api-key>` must come with a comment explaining what to put there.
+- **`coreCapabilities` ≤ 4** per tool. If you have 5, merge two.
+- **ASCII block is pure ASCII.** Grep the `ascii` field for any CJK (`[一-鿿]`). If found, rewrite the diagram in English/latin only.
+
+### Pass 2 — Feynman checks (the hard ones)
+
+Close your eyes and pretend you're the reader who just finished this page. Honest answers:
+
+1. **Job check.** Can I state each tool's job in one sentence without looking at the page? ("Linear is what I hire to *make the cross-team status of work legible*." If the answer is a feature list, `whatItIs` failed its JTBD duty.)
+2. **Mental-model check.** Can I draw each tool's internal skeleton — the 2–3 primitives and the rule binding them — from memory? (If I can only recall scattered features, the mental-model sentence was too weak.)
+3. **Combo role check.** For each tool in the combo, can I say one sentence about what role it plays in the joint workflow — without confusing it with the other tools? (If two tools sound interchangeable, the combo `overview` failed its Activity Theory duty.)
+4. **Scenario check.** Is there at least one scenario per tool I could actually carry out tomorrow with only what's on this page?
+5. **Pitfall check.** Are the pitfalls things I'd only learn by getting burned? (If any sound like generic "be careful" warnings, replace them with concrete negative-affordance facts.)
+
+If any check fails, go back to Phase 2 and rewrite — not Phase 3. Re-rendering doesn't fix shallow content.
 
 ---
 

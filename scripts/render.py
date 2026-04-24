@@ -96,6 +96,29 @@ def render_pitfalls(pitfalls: list[dict]) -> str:
     return f'<ul class="pitfalls">{"".join(items)}</ul>'
 
 
+def render_migrating_from(mig: dict) -> str:
+    if not mig or not mig.get("mapping"):
+        return ""
+    from_tool = esc(mig.get("fromTool", "the old tool"))
+    rows = []
+    for m in mig["mapping"]:
+        note = m.get("note", "")
+        note_html = f'<span class="mig-note">{esc(note)}</span>' if note else ""
+        rows.append(
+            f"<tr>"
+            f'<td class="mig-from">{esc(m.get("from", ""))}</td>'
+            f'<td class="mig-arrow">→</td>'
+            f'<td class="mig-to">{esc(m.get("to", ""))} {note_html}</td>'
+            f"</tr>"
+        )
+    return (
+        f'<div class="mig-wrap">'
+        f'<div class="mig-caption">Coming from <strong>{from_tool}</strong>? Here is the concept map.</div>'
+        f'<table class="mig-table"><tbody>{"".join(rows)}</tbody></table>'
+        f"</div>"
+    )
+
+
 def render_docs_link(tool: dict) -> str:
     url = tool.get("docsUrl")
     if not url:
@@ -138,6 +161,11 @@ def render_tool_section(tool: dict) -> str:
     if pf_html:
         parts.append("<h3>Pitfalls</h3>")
         parts.append(pf_html)
+
+    mig_html = render_migrating_from(tool.get("migratingFrom") or {})
+    if mig_html:
+        parts.append("<h3>Coming from another tool?</h3>")
+        parts.append(mig_html)
 
     docs_html = render_docs_link(tool)
     if docs_html:
@@ -286,6 +314,7 @@ def main() -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(out_html, encoding="utf-8")
     print(f"Rendered → {output_path.resolve()}")
+    print("Tip: if you had this page open before, hard refresh (Cmd/Ctrl+Shift+R) to bypass browser cache.")
     return 0
 
 
