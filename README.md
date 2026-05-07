@@ -1,3 +1,13 @@
+<!-- daizhouchen-banner-begin -->
+<p align="center">
+  <img src="assets/hero.png" alt="tool-mastery" width="100%"/>
+</p>
+
+> **把 "what is X" 变成一个精致的 HTML 站。三阶段：Intel → Structure → Render。**
+>
+> *any tool / SDK / API → a polished single-file site.*
+<!-- daizhouchen-banner-end -->
+
 # tool-mastery
 
 > A Claude skill that turns "what is X and how do I use it?" into a polished, single-file HTML site — without the Wikipedia bloat.
@@ -127,3 +137,9 @@ MIT. See [LICENSE](LICENSE).
 ## Acknowledgements
 
 Built using the [Claude skill-creator](https://github.com/anthropics/skills) workflow.
+
+---
+<!-- daizhouchen-footer-begin -->
+
+Part of [**daizhouchen 实验集**](https://github.com/daizhouchen) → 一个 AI 应用创造者的实验现场。
+<!-- daizhouchen-footer-end -->
